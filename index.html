@@ -1,26 +1,57 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Je jeu du Morpion</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./assets/css/style.css">
+	<title>Je jeu du Morpion</title>
 </head>
+
 <body>
-	<h1>Jeu de morpion</h1>
-	<div id="morpion">
-		<div onclick="play(this)" class="case"></div>
-		<div onclick="play(this)" class="case"></div>
-		<div onclick="play(this)" class="case"></div>
-		<div onclick="play(this)" class="case"></div>
-		<div onclick="play(this)" class="case"></div>
-		<div onclick="play(this)" class="case"></div>
-		<div onclick="play(this)" class="case"></div>
-		<div onclick="play(this)" class="case"></div>
-		<div onclick="play(this)" class="case"></div>
+	<h1>jeu du morpion</h1>
+	<div class="container">
+		<div id="morpion">
+			<div onclick="play(this)" class="case"></div>
+			<div onclick="play(this)" class="case"></div>
+			<div onclick="play(this)" class="case"></div>
+			<div onclick="play(this)" class="case"></div>
+			<div onclick="play(this)" class="case"></div>
+			<div onclick="play(this)" class="case"></div>
+			<div onclick="play(this)" class="case"></div>
+			<div onclick="play(this)" class="case"></div>
+			<div onclick="play(this)" class="case"></div>
+		</div>
+		<div class="scoreboard">
+			<h2>score</h2>
+			<div class="scores">
+				<div class="player1-score">joueur x<div id="score-x">1</div>
+				</div>
+				<div class="player2-score">joueur o<div id="score-o">3</div>
+				</div>
+			</div>
+			<h3>Choisis ton camp</h3>
+			<div class="options">
+				<div>
+					<input type="radio" name="shape" id="croix" value="x" checked onclick="choice(this)">
+					<label for="croix" class="croix-label"></label>
+				</div>
+				
+				<div>
+					<input type="radio" name="shape" id="circle" value="o" onclick="choice(this)">
+					<label for="circle" class="circle-label"></label>
+				</div>
+				
+			</div>
+			<div class="retry">
+				<button onclick="playAgain()">rejouer</button>
+			</div>
+		</div>
 	</div>
 	<div class="result"></div>
+
 </body>
 <script src="./assets/JS/javascript.js"></script>
+
 </html>

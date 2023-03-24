@@ -3,34 +3,187 @@
 
 body {
     font-family: 'Poppins', sans-serif;
+    font-variant-caps: small-caps;
     margin: 0;
     padding: 0;
+    top: 0;
+    height: 70vh;
+    background-color: #18122B;
 }
 
 h1 {
     text-align: center;
-    margin-top: 20px;
-    font-size: 40px;
+    font-size: 60px;
+    font-variant-caps: small-caps;
+    color: #fff;
+    margin: 0;
+    text-shadow: 0px 0px 20px rgba(132, 124, 152, 0.744);
 }
 
+.container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+}
+
+
 #morpion {
+    border-radius: 10px;
+    background-color: #443C68;
+    box-shadow: rgba(78, 67, 137, 0.6) 0px 5px 15px;
+    padding: 10px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    margin: auto;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    border: 1px solid #333 ;
-    height: 300px;
-    width: 300px;
+    gap: 5px;
+    height: 400px;
+    width: 400px;
 }
 
 .case {
-    border: 1px solid #333;
-    background-color: #ffffff;
-    color: #333;
-    font-size: 50px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 15px;
+    text-shadow: 0px 0px 15px rgba(81, 81, 81, 0.5);
+    background-color: #18122B;
+    color: #635985;
+    font-size: 100px;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
     cursor: pointer;
+}
+
+.result {
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    font-variant-caps: small-caps;
+    color: #70C7C6;
+    text-shadow: 0px 0px 15px rgba(81, 198, 204, 0.5);
+}
+
+.retry {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.retry button {
+    font-variant-caps: small-caps;
+    background-color: #18122B;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 24px;
+    cursor: pointer;
+    text-shadow: 0px 0px 10px rgba(81, 198, 204, 0.5);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 15px;
+    transition: background-color 0.3s ease;
+}
+
+.retry button:hover {
+    background-color: #70c7c6;
+}
+
+.scoreboard {
+    background-color: #443C68;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: rgba(78, 67, 137, 0.6) 0px 5px 15px;
+    padding: 10px;
+    width: 300px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h2 {
+    font-size: 30px;
+    margin: 0;
+}
+
+.scores {
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.player1-score {
+    display: flex;
+    width: 80%;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 15px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: #18122B;
+    color: #fff;
+    justify-content: space-between;
+}
+
+.player2-score {
+    display: flex;
+    width: 80%;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 15px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: #18122B;
+    color: #fff;
+    justify-content: space-between;
+}
+
+.options {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+.options input[type="radio"] {
+    display: none;
+}
+
+.croix-label {
+    width: 55px;
+    height: 55px;
+    background-image: url('../img/cross-icon-remove.png');
+    background-size: contain;
+    cursor: pointer;
+    transition: transform .1s;
+}
+
+.circle-label {
+    width: 40px;
+    height: 40px;
+    background-image: url('../img/contour-de-cercle-de-petite-taille.png');
+    background-size: contain;
+    cursor: pointer;
+    transition: transform .1s;
+}
+
+.croix-label:hover,
+.circle-label:hover {
+    transform: scale(1.5);
+}
+
+.croix-label-active {
+    background-image: url('../img/croix-rouge.png');
+}
+
+.circle-label-active {
+    background-image: url('../img/cercle-vert.png');
+}
+
+.options label {
+    display: flex;
+    margin: 5px;
 }

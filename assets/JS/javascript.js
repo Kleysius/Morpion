@@ -1,5 +1,5 @@
-let playerOne = "X";
-let playerTwo = "O";
+let playerOne = "×"
+let playerTwo = "o";
 let gameOver = false;
 let turn = 1;
 
@@ -81,3 +81,43 @@ function checkWinner() {
     }
 
 }
+
+function playAgain() {
+    turn = 1;
+    // Réinitialiser le jeu en supprimant le contenu de chaque case de la grille
+    let cases = document.querySelectorAll('.case');
+    cases.forEach(function (caseElem) {
+        caseElem.textContent = '';
+    });
+
+    // Réinitialiser le message de résultat
+    let resultElem = document.querySelector('.result');
+    resultElem.textContent = '';
+}
+
+// Attacher l'événement de clic au bouton "Rejouer"
+let retryButton = document.querySelector('.retry button');
+retryButton.addEventListener('click', playAgain);
+
+// Choix Croix ou Rond par le premier joueur
+function choice(elem) {
+    document.getElementsByName("shape").forEach((elem) => {
+        if (elem.checked) {
+            playerOne = elem.value;
+            if (elem.value == "x") {
+                document.querySelector('.croix-label').classList.add('croix-label-active')
+                document.querySelector('.circle-label').classList.remove('circle-label-active')
+            } else {
+                document.querySelector('.croix-label').classList.remove('croix-label-active')
+                document.querySelector('.circle-label').classList.add('circle-label-active')
+            }
+        }
+        if (!elem.checked) {
+            playerTwo = elem.value;
+        }
+    })
+    playAgain()
+}
+
+choice()
+
