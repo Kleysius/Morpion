@@ -2,6 +2,13 @@ let playerOne = "×"
 let playerTwo = "o";
 let gameOver = false;
 let turn = 1;
+let scoreX = 0;
+let scoreO = 0;
+let tabl = [
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
+]
 
 function play(elem) {
     if (gameOver == false && elem.innerHTML == "") {
@@ -15,11 +22,6 @@ function play(elem) {
     }
 }
 
-let tabl = [
-    ["", "", ""],
-    ["", "", ""],
-    ["", "", ""],
-]
 
 function updateGrid() {
     let index = 0;
@@ -34,14 +36,19 @@ function updateGrid() {
 
 
 function checkWinner() {
+    let winner;
     // Vérification des lignes
     for (let i = 0; i < tabl.length; i++) {
         if (tabl[i][0] === playerOne && tabl[i][1] === playerOne && tabl[i][2] === playerOne) {
             document.querySelector(".result").innerHTML = playerOne + " a gagné";
             gameOver = true;
+            winner = "×"
+
         } else if (tabl[i][0] === playerTwo && tabl[i][1] === playerTwo && tabl[i][2] === playerTwo) {
             document.querySelector(".result").innerHTML = playerTwo + " a gagné";
             gameOver = true;
+            winner = "o"
+
         }
     }
 
@@ -50,9 +57,11 @@ function checkWinner() {
         if (tabl[0][i] === playerOne && tabl[1][i] === playerOne && tabl[2][i] === playerOne) {
             document.querySelector(".result").innerHTML = playerOne + " a gagné";
             gameOver = true;
+            winner = "×"
         } else if (tabl[0][i] === playerTwo && tabl[1][i] === playerTwo && tabl[2][i] === playerTwo) {
             document.querySelector(".result").innerHTML = playerTwo + " a gagné";
             gameOver = true;
+            winner = "o"
         }
     }
 
@@ -60,18 +69,22 @@ function checkWinner() {
     if (tabl[0][0] === playerOne && tabl[1][1] === playerOne && tabl[2][2] === playerOne) {
         document.querySelector(".result").innerHTML = playerOne + " a gagné";
         gameOver = true;
+        winner = "×"
     } else if (tabl[0][0] === playerTwo && tabl[1][1] === playerTwo && tabl[2][2] === playerTwo) {
         document.querySelector(".result").innerHTML = playerTwo + " a gagné";
         gameOver = true;
+        winner = "o"
     }
 
     // Vérification de la diagonale haut-droite vers bas-gauche
     if (tabl[0][2] === playerOne && tabl[1][1] === playerOne && tabl[2][0] === playerOne) {
         document.querySelector(".result").innerHTML = playerOne + " a gagné";
         gameOver = true;
+        winner = "×"
     } else if (tabl[0][2] === playerTwo && tabl[1][1] === playerTwo && tabl[2][0] === playerTwo) {
         document.querySelector(".result").innerHTML = playerTwo + " a gagné";
         gameOver = true;
+        winner = "o"
     }
 
     // Vérification si égalité
@@ -79,25 +92,30 @@ function checkWinner() {
         document.querySelector(".result").innerHTML = "Égalité";
         gameOver = true;
     }
-
+    if (gameOver = true) {
+        incrementScore(winner);
+    }
 }
 
 function playAgain() {
     turn = 1;
     // Réinitialiser le jeu en supprimant le contenu de chaque case de la grille
-    let cases = document.querySelectorAll('.case');
+    let cases = document.querySelectorAll(".case");
     cases.forEach(function (caseElem) {
-        caseElem.textContent = '';
+        caseElem.textContent = "";
     });
 
     // Réinitialiser le message de résultat
-    let resultElem = document.querySelector('.result');
-    resultElem.textContent = '';
+    let resultElem = document.querySelector(".result");
+    resultElem.textContent = "";
+
+    // Réinitialiser la variable gameOver
+    gameOver = false;
 }
 
 // Attacher l'événement de clic au bouton "Rejouer"
-let retryButton = document.querySelector('.retry button');
-retryButton.addEventListener('click', playAgain);
+let retryButton = document.querySelector(".retry button");
+retryButton.addEventListener("click", playAgain);
 
 // Choix Croix ou Rond par le premier joueur
 function choice(elem) {
@@ -105,19 +123,30 @@ function choice(elem) {
         if (elem.checked) {
             playerOne = elem.value;
             if (elem.value == "x") {
-                document.querySelector('.croix-label').classList.add('croix-label-active')
-                document.querySelector('.circle-label').classList.remove('circle-label-active')
+                document.querySelector('.croix-label').classList.add('croix-label-active');
+                document.querySelector('.circle-label').classList.remove('circle-label-active');
             } else {
-                document.querySelector('.croix-label').classList.remove('croix-label-active')
-                document.querySelector('.circle-label').classList.add('circle-label-active')
+                document.querySelector('.croix-label').classList.remove('croix-label-active');
+                document.querySelector('.circle-label').classList.add('circle-label-active');
             }
         }
         if (!elem.checked) {
             playerTwo = elem.value;
         }
     })
-    playAgain()
+    playAgain();
 }
 
-choice()
+choice();
+
+function incrementScore(winner) {
+    if (winner === "×") {
+        scoreX++;
+        document.querySelector("#score-x").innerHTML = scoreX;
+    } else if (winner === "o") {
+        scoreO++;
+        document.querySelector("#score-o").innerHTML = scoreO;
+    }
+}
+
 
