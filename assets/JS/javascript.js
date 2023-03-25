@@ -92,7 +92,8 @@ function checkWinner() {
         document.querySelector(".result").innerHTML = "Égalité";
         gameOver = true;
     }
-    if (gameOver = true) {
+
+    if (gameOver == true) {
         incrementScore(winner);
     }
 }
