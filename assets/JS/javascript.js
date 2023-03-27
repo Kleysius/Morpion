@@ -1,4 +1,8 @@
-let playerOne = "×"
+function random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+let playerOne = "x"
 let playerTwo = "o";
 let gameOver = false;
 let turn = 1;
@@ -22,7 +26,6 @@ function play(elem) {
     }
 }
 
-
 function updateGrid() {
     let index = 0;
     for (let i = 0; i < tabl.length; i++) {
@@ -36,19 +39,17 @@ function updateGrid() {
 
 
 function checkWinner() {
-    let winner;
+    let winner = 0;
     // Vérification des lignes
     for (let i = 0; i < tabl.length; i++) {
         if (tabl[i][0] === playerOne && tabl[i][1] === playerOne && tabl[i][2] === playerOne) {
             document.querySelector(".result").innerHTML = playerOne + " a gagné";
             gameOver = true;
-            winner = "×"
-
+            winner = playerOne;
         } else if (tabl[i][0] === playerTwo && tabl[i][1] === playerTwo && tabl[i][2] === playerTwo) {
             document.querySelector(".result").innerHTML = playerTwo + " a gagné";
             gameOver = true;
-            winner = "o"
-
+            winner = playerTwo;
         }
     }
 
@@ -57,11 +58,11 @@ function checkWinner() {
         if (tabl[0][i] === playerOne && tabl[1][i] === playerOne && tabl[2][i] === playerOne) {
             document.querySelector(".result").innerHTML = playerOne + " a gagné";
             gameOver = true;
-            winner = "×"
+            winner = playerOne;
         } else if (tabl[0][i] === playerTwo && tabl[1][i] === playerTwo && tabl[2][i] === playerTwo) {
             document.querySelector(".result").innerHTML = playerTwo + " a gagné";
             gameOver = true;
-            winner = "o"
+            winner = playerTwo;
         }
     }
 
@@ -69,22 +70,22 @@ function checkWinner() {
     if (tabl[0][0] === playerOne && tabl[1][1] === playerOne && tabl[2][2] === playerOne) {
         document.querySelector(".result").innerHTML = playerOne + " a gagné";
         gameOver = true;
-        winner = "×"
+        winner = playerOne;
     } else if (tabl[0][0] === playerTwo && tabl[1][1] === playerTwo && tabl[2][2] === playerTwo) {
         document.querySelector(".result").innerHTML = playerTwo + " a gagné";
         gameOver = true;
-        winner = "o"
+        winner = playerTwo;
     }
 
     // Vérification de la diagonale haut-droite vers bas-gauche
     if (tabl[0][2] === playerOne && tabl[1][1] === playerOne && tabl[2][0] === playerOne) {
         document.querySelector(".result").innerHTML = playerOne + " a gagné";
         gameOver = true;
-        winner = "×"
+        winner = playerOne;
     } else if (tabl[0][2] === playerTwo && tabl[1][1] === playerTwo && tabl[2][0] === playerTwo) {
         document.querySelector(".result").innerHTML = playerTwo + " a gagné";
         gameOver = true;
-        winner = "o"
+        winner = playerTwo;
     }
 
     // Vérification si égalité
@@ -110,7 +111,6 @@ function playAgain() {
     let resultElem = document.querySelector(".result");
     resultElem.textContent = "";
 
-    // Réinitialiser la variable gameOver
     gameOver = false;
 }
 
@@ -141,7 +141,7 @@ function choice(elem) {
 choice();
 
 function incrementScore(winner) {
-    if (winner === "×") {
+    if (winner === "x") {
         scoreX++;
         document.querySelector("#score-x").innerHTML = scoreX;
     } else if (winner === "o") {
@@ -149,5 +149,3 @@ function incrementScore(winner) {
         document.querySelector("#score-o").innerHTML = scoreO;
     }
 }
-
-
