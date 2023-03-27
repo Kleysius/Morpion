@@ -8,6 +8,7 @@ let gameOver = false;
 let turn = 1;
 let scoreX = 0;
 let scoreO = 0;
+let soloGame = false;
 let tabl = [
     ["", "", ""],
     ["", "", ""],
@@ -18,11 +19,14 @@ function play(elem) {
     if (gameOver == false && elem.innerHTML == "") {
         if (turn % 2 != 0) {
             elem.innerHTML = playerOne;
-        } else {
+        } else if (soloGame == false && turn % 2 == 0) {
             elem.innerHTML = playerTwo;
         }
         updateGrid();
-        turn++;
+        checkWinner()
+        if (soloGame == true && turn % 2 == 0 && gameOver == false) {
+            versusCpu();
+        }
     }
 }
 
@@ -34,7 +38,7 @@ function updateGrid() {
             index++;
         }
     }
-    checkWinner();
+    turn++;
 }
 
 
@@ -89,7 +93,7 @@ function checkWinner() {
     }
 
     // Vérification si égalité
-    if (turn == 9 && gameOver == false) {
+    if (turn == 10 && gameOver == false) {
         document.querySelector(".result").innerHTML = "Égalité";
         gameOver = true;
     }
@@ -143,9 +147,30 @@ choice();
 function incrementScore(winner) {
     if (winner === "x") {
         scoreX++;
+        console.log(scoreX);
         document.querySelector("#score-x").innerHTML = scoreX;
     } else if (winner === "o") {
         scoreO++;
+        console.log(scoreO);
         document.querySelector("#score-o").innerHTML = scoreO;
     }
+}
+
+function chooseMode() {
+    soloGame = true;
+}
+
+function versusCpu() {
+    let randomIndex = random(0, 8);
+    let morpion = document.querySelectorAll(".case");
+    while (morpion[randomIndex].innerHTML != "") {
+        randomIndex = random(0, 8);
+    }
+    if (playerOne == "x") {
+        morpion[randomIndex].innerHTML = "o";
+    } else if (playerOne == "o") {
+        morpion[randomIndex].innerHTML = "x";
+    }
+    updateGrid();
+    checkWinner();
 }

@@ -12,11 +12,15 @@ body {
 }
 
 h1 {
+    display: flex;
+    justify-content: center;
     text-align: center;
     font-size: 60px;
     font-variant-caps: small-caps;
     color: #fff;
     margin: 0;
+    height: 200px;
+    align-items: center;
     text-shadow: 0px 0px 20px rgba(132, 124, 152, 0.744);
 }
 
@@ -24,7 +28,6 @@ h1 {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    height: 100%;
 }
 
 
@@ -37,8 +40,8 @@ h1 {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 5px;
-    height: 400px;
-    width: 400px;
+    height: 500px;
+    width: 500px;
 }
 
 .case {
@@ -53,6 +56,7 @@ h1 {
     font-weight: bold;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     display: flex;
+    align-items: center;
     justify-content: center;
     cursor: pointer;
 }
@@ -71,12 +75,12 @@ h1 {
     text-shadow: 0px 0px 15px rgba(81, 198, 204, 0.5);
 }
 
-.retry {
+.retry, .vsCpu {
     text-align: center;
     margin-top: 30px;
 }
 
-.retry button {
+.retry button, .vsCpu button {
     font-variant-caps: small-caps;
     background-color: #18122B;
     color: #fff;
@@ -90,7 +94,7 @@ h1 {
     transition: background-color 0.3s ease;
 }
 
-.retry button:hover {
+.retry button:hover, .vsCpu button:hover {
     background-color: #70c7c6;
 }
 
@@ -101,7 +105,7 @@ h1 {
     box-shadow: rgba(78, 67, 137, 0.6) 0px 5px 15px;
     padding: 10px;
     width: 300px;
-    height: 400px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
