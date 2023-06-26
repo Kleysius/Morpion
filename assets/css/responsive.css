@@ -102,4 +102,8 @@
     .retry button, .vsCpu button {
         font-size: 10px;
     }
+
+    .result {
+        font-size: 25px;
+    }
 }

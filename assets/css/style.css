@@ -77,12 +77,13 @@ h1 {
 }
 
 .result {
+    display: none;
     text-align: center;
     font-size: 50px;
+    margin-bottom: 20px;
     font-weight: bold;
     font-variant-caps: small-caps;
     color: #70C7C6;
-    margin-top: 50px;
     text-shadow: 0px 0px 15px rgba(81, 198, 204, 0.5);
 }
 
