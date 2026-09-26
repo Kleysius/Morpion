@@ -1,61 +1,161 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="./assets/css/style.css">
-		<link rel="stylesheet" href="./assets/css/responsive.css">
-		<title>Jeu du Morpion</title>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<meta name="description" content="Le jeu du morpion revisité : IA imbattable, variante infinie, animations et sons.">
+	<meta name="theme-color" content="#0f0b1e">
+	<title>Morpion</title>
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2318122B'/%3E%3Cpath d='M22 22 48 48M48 22 22 48' stroke='%23ff5c8a' stroke-width='9' stroke-linecap='round'/%3E%3Ccircle cx='66' cy='66' r='15' fill='none' stroke='%234de2d6' stroke-width='9'/%3E%3C/svg%3E">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap">
+	<link rel="stylesheet" href="./assets/css/style.css">
+</head>
 
-	<body>
-		<div class="container">
-			<h1>jeu du morpion</h1>
-			<div class="result"></div>
-			<div class="game-container">
-				<div id="morpion">
-					<div onclick="play(this)" class="case"></div>
-					<div onclick="play(this)" class="case"></div>
-					<div onclick="play(this)" class="case"></div>
-					<div onclick="play(this)" class="case"></div>
-					<div onclick="play(this)" class="case"></div>
-					<div onclick="play(this)" class="case"></div>
-					<div onclick="play(this)" class="case"></div>
-					<div onclick="play(this)" class="case"></div>
-					<div onclick="play(this)" class="case"></div>
-				</div>
-				<div class="scoreboard">
-					<h2>score</h2>
-					<div class="scores">
-						<div class="player1-score">joueur x<div id="score-x"></div>
-						</div>
-						<div class="player2-score">joueur o<div id="score-o"></div>
-						</div>
-					</div>
-					<h3>choisis ton camp</h3>
-					<div class="options">
-						<div>
-							<input type="radio" name="shape" id="croix" value="x" checked onclick="choice(this)">
-							<label for="croix" class="croix-label"></label>
-						</div>
-						<div>
-							<input type="radio" name="shape" id="circle" value="o" onclick="choice(this)">
-							<label for="circle" class="circle-label"></label>
-						</div>
-					</div>
-					<div class="vsCpu">
-						<button onclick="chooseMode()">jouer contre l'ordi</button>
-					</div>
-					<div class="retry">
-						<button onclick="playAgain()">rejouer</button>
-					</div>
+<body>
+	<div class="backdrop" aria-hidden="true"></div>
+
+	<main class="app">
+		<header class="topbar">
+			<h1 class="logo">
+				<span class="logo-x" aria-hidden="true">✕</span>
+				<span>Morpion</span>
+				<span class="logo-o" aria-hidden="true">◯</span>
+			</h1>
+			<div class="topbar-actions">
+				<button id="sound-toggle" class="icon-btn" type="button" aria-pressed="true" title="Son (M)">
+					<svg class="icon-sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></svg>
+					<svg class="icon-sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="wave" d="M17 9l5 6M22 9l-5 6"/></svg>
+					<span class="sr-only">Activer ou couper le son</span>
+				</button>
+				<button id="help-toggle" class="icon-btn" type="button" title="Règles et raccourcis (?)">
+					<span aria-hidden="true">?</span>
+					<span class="sr-only">Règles et raccourcis</span>
+				</button>
+			</div>
+		</header>
+
+		<section class="play-area" aria-label="Partie">
+			<p class="status" id="status" role="status" aria-live="polite">
+				<span class="status-mark" aria-hidden="true"></span>
+				<span class="status-text"></span>
+			</p>
+
+			<div class="board-wrap">
+				<div id="board" class="board" role="group" aria-label="Grille de morpion" aria-describedby="status"></div>
+				<svg class="win-line" aria-hidden="true"><line pathLength="1" /></svg>
+				<div class="result" id="result" hidden>
+					<p class="result-title"></p>
+					<p class="result-subtitle"></p>
+					<button class="btn btn-primary" id="next-round" type="button">Manche suivante <kbd>↵</kbd></button>
 				</div>
 			</div>
-		</div>
 
-	</body>
-	<script src="./assets/JS/script.js"></script>
+			<div class="board-actions">
+				<button class="btn btn-ghost" id="undo" type="button" title="Annuler (U)">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+					Annuler
+				</button>
+				<button class="btn btn-ghost" id="hint" type="button" title="Indice (H)">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
+					Indice
+				</button>
+				<button class="btn btn-ghost" id="restart" type="button" title="Recommencer la manche (N)">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+					Recommencer
+				</button>
+			</div>
+		</section>
+
+		<aside class="panel">
+			<section class="card scoreboard" aria-label="Scores">
+				<div class="score score-x">
+					<span class="score-mark" aria-hidden="true">✕</span>
+					<span class="score-name" id="name-x">Toi</span>
+					<span class="score-value" id="score-x">0</span>
+				</div>
+				<div class="score score-draw">
+					<span class="score-mark" aria-hidden="true">=</span>
+					<span class="score-name">Nuls</span>
+					<span class="score-value" id="score-draw">0</span>
+				</div>
+				<div class="score score-o">
+					<span class="score-mark" aria-hidden="true">◯</span>
+					<span class="score-name" id="name-o">Ordi</span>
+					<span class="score-value" id="score-o">0</span>
+				</div>
+				<p class="streak" id="streak" aria-live="polite"></p>
+			</section>
+
+			<form class="card settings" id="settings" aria-label="Réglages">
+				<fieldset class="field">
+					<legend>Adversaire</legend>
+					<div class="segmented">
+						<input type="radio" name="mode" id="mode-cpu" value="cpu"><label for="mode-cpu">🤖 Ordi</label>
+						<input type="radio" name="mode" id="mode-pvp" value="pvp"><label for="mode-pvp">👥 2 joueurs</label>
+					</div>
+				</fieldset>
+
+				<fieldset class="field" id="level-field">
+					<legend>Difficulté</legend>
+					<div class="segmented">
+						<input type="radio" name="level" id="level-easy" value="easy"><label for="level-easy">Facile</label>
+						<input type="radio" name="level" id="level-medium" value="medium"><label for="level-medium">Moyen</label>
+						<input type="radio" name="level" id="level-hard" value="hard"><label for="level-hard">Impossible</label>
+					</div>
+				</fieldset>
+
+				<fieldset class="field" id="side-field">
+					<legend>Ton camp</legend>
+					<div class="segmented segmented-marks">
+						<input type="radio" name="human" id="human-x" value="x"><label for="human-x"><span class="mark-x">✕</span></label>
+						<input type="radio" name="human" id="human-o" value="o"><label for="human-o"><span class="mark-o">◯</span></label>
+					</div>
+				</fieldset>
+
+				<label class="switch">
+					<input type="checkbox" name="infinite" id="infinite">
+					<span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+					<span class="switch-text">
+						<strong>Variante infinie</strong>
+						<small>3 pions max par joueur : le plus ancien s'efface.</small>
+					</span>
+				</label>
+
+				<button class="btn btn-link" id="reset-scores" type="button">Remettre les scores à zéro</button>
+			</form>
+		</aside>
+	</main>
+
+	<dialog id="help" class="help" aria-labelledby="help-title">
+		<form method="dialog">
+			<h2 id="help-title">Comment jouer</h2>
+			<p>Aligne <strong>trois symboles</strong> — en ligne, en colonne ou en diagonale — avant ton adversaire. Le joueur qui commence alterne à chaque manche.</p>
+			<h3>Variante infinie</h3>
+			<p>Chaque joueur n'a que <strong>3 pions</strong>. Quand tu en poses un 4ᵉ, ton plus ancien disparaît (il clignote juste avant). Pas de match nul : la partie continue jusqu'à ce que quelqu'un craque.</p>
+			<h3>Difficulté</h3>
+			<p><strong>Impossible</strong> porte bien son nom : l'ordi calcule toutes les parties possibles. Le mieux que tu puisses espérer, c'est un nul.</p>
+			<h3>Raccourcis</h3>
+			<dl class="shortcuts">
+				<dt><kbd>1</kbd>–<kbd>9</kbd></dt><dd>Jouer une case (de gauche à droite, de haut en bas)</dd>
+				<dt><kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd></dt><dd>Se déplacer dans la grille</dd>
+				<dt><kbd>U</kbd></dt><dd>Annuler le dernier coup</dd>
+				<dt><kbd>H</kbd></dt><dd>Indice</dd>
+				<dt><kbd>N</kbd> / <kbd>↵</kbd></dt><dd>Nouvelle manche</dd>
+				<dt><kbd>M</kbd></dt><dd>Couper / activer le son</dd>
+			</dl>
+			<button class="btn btn-primary" value="close">C'est parti !</button>
+		</form>
+	</dialog>
+
+	<canvas id="confetti" class="confetti" aria-hidden="true"></canvas>
+
+	<script src="./assets/js/game.js"></script>
+	<script src="./assets/js/ai.js"></script>
+	<script src="./assets/js/effects.js"></script>
+	<script src="./assets/js/main.js"></script>
+</body>
 
 </html>

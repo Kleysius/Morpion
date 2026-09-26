@@ -1,0 +1,10 @@
+{
+  "name": "morpion",
+  "version": "2.0.0",
+  "description": "Le jeu du morpion : IA imbattable, variante infinie, animations et sons.",
+  "private": true,
+  "scripts": {
+    "start": "npx --yes serve .",
+    "test": "node --test tests/*.test.js"
+  }
+}
